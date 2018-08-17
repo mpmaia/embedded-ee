@@ -8,14 +8,28 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>embeddedee-sample</artifactId>
+
+    <properties>
+        <version.h2>1.4.197</version.h2>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>me.sigtrap</groupId>
             <artifactId>embeddedee-core</artifactId>
             <scope>compile</scope>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${version.h2}</version>
         </dependency>
     </dependencies>
 

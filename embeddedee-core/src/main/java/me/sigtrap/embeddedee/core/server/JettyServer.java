@@ -14,8 +14,11 @@ import org.slf4j.LoggerFactory;
 
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 
 public class JettyServer extends AbstractServer {
@@ -29,7 +32,7 @@ public class JettyServer extends AbstractServer {
     private HttpConfiguration httpConfiguration;
 
     public void start() {
-        logger.info("Starting Jetty at URL %s.", this.getServerUrl());
+        logger.info("Starting Jetty at URL {}.", this.getServerUrl());
         try {
             build();
             server.start();
@@ -53,7 +56,7 @@ public class JettyServer extends AbstractServer {
     }
 
     @Override
-    public void addDataSource(DataSource dataSource, String jndiName) {
+    public void addDataSource(String jndiName, DataSource dataSource) {
         try {
             Resource resource = new Resource(jndiName, dataSource);
             appContext.setAttribute(jndiName, resource);
@@ -87,6 +90,7 @@ public class JettyServer extends AbstractServer {
         WebAppContext appContext = new WebAppContext();
         appContext.setAttribute(CONTAINER_INCLUDED_JAR_PATTERN, JAR_PATTERN);
         appContext.setContextPath(getServerContextPath());
+        appContext.setResourceBase(this.getWebAppResourceBase());
         return appContext;
     }
 
@@ -121,7 +125,7 @@ public class JettyServer extends AbstractServer {
         try {
             httpConnector.setHost(new URL(this.getServerUrl()).getHost());
         } catch (MalformedURLException e) {
-            logger.error("Malformed URL %s", this.getServerUrl());
+            logger.error("Malformed URL {}", this.getServerUrl());
             httpConnector.setHost("localhost");
         }
 
@@ -134,5 +138,14 @@ public class JettyServer extends AbstractServer {
 
     public void setHttpConfiguration(HttpConfiguration httpConfiguration) {
         this.httpConfiguration = httpConfiguration;
+    }
+
+    private String getWebAppResourceBase() {
+        try {
+            final Path resourceBase = Files.createTempDirectory("webapp");
+            return resourceBase.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

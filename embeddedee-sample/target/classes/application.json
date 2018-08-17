@@ -5,6 +5,15 @@
     "httpConfiguration": {
       "sendServerVersion": false
     }
-  }
+  },
+  "dataSources": [
+    {
+      "dataSourceJNDI": "datasources/ExampleDS",
+      "jdbcUrl": "jdbc:h2:~/exemplo.db;AUTO_SERVER=TRUE",
+      "username": "sa",
+      "password": "",
+      "maxPoolSize": 20
+    }
+  ]
 }
 

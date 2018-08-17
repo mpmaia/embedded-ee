@@ -12,9 +12,13 @@ import me.sigtrap.embeddedee.core.server.JettyServer;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 public class EeApplication {
+
+    private static final String SERVER_PROPERTY = "/server";
+    private static final String DATASOURCES_PROPERTY = "/dataSources";
 
     public EeApplication() {
 
@@ -26,16 +30,25 @@ public class EeApplication {
         ConfigurationReader configurationReader = new JsonConfigurationReader(configurationSource);
 
         JettyServer server = null;
-        List<DataSourceConfig> dataSourcesConfig;
+        List<DataSourceConfig> dataSourcesConfig = Collections.emptyList();
         try {
-            server = configurationReader.read("/server", JettyServer.class);
-            dataSourcesConfig = configurationReader.read("/dataSources", new TypeReference<List<DataSourceConfig>>() {
-            });
+
+            if(configurationReader.hasProperty(SERVER_PROPERTY)) {
+                server = configurationReader.read(SERVER_PROPERTY, JettyServer.class);
+            } else {
+                server = new JettyServer();
+            }
+
+            server.start();
+
+            if(configurationReader.hasProperty(DATASOURCES_PROPERTY)) {
+                dataSourcesConfig = configurationReader.read(DATASOURCES_PROPERTY, new TypeReference<List<DataSourceConfig>>() {});
+            }
 
             for (DataSourceConfig dsConfig: dataSourcesConfig) {
                 if(dsConfig.getType().equals(DataSourceType.NON_XA)) {
                     DataSource ds = HikariDataSourceFactory.createDataSource(dsConfig);
-                    server.addDataSource(ds, dsConfig.getDataSourceJNDI());
+                    server.addDataSource(dsConfig.getDataSourceJNDI(), ds);
                 } else {
                     //TODO: XA Wrapper
                 }
@@ -44,9 +57,5 @@ public class EeApplication {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
-        server.start();
     }
 }

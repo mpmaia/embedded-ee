@@ -1,7 +1,6 @@
 package me.sigtrap.embeddedee.core.config.json;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -27,6 +26,16 @@ public class JsonConfigurationReader implements ConfigurationReader {
             return objectReader.readValue(jsonNode);
         } catch (IOException e) {
             throw e;
+        }
+    }
+
+    @Override
+    public boolean hasProperty(String name) {
+        try {
+            JsonNode jsonNode = getJsonNode(name);
+            return jsonNode!=null && !jsonNode.isMissingNode();
+        } catch (IOException e) {
+            return false;
         }
     }
 

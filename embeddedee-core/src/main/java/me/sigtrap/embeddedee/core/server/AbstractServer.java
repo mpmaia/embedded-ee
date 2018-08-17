@@ -16,7 +16,7 @@ public abstract class AbstractServer {
 
     protected abstract void build();
 
-    public abstract void addDataSource(DataSource ds, String jndiName);
+    public abstract void addDataSource(String jndiName, DataSource dataSource);
 
     public String getServerUrl() {
         return serverUrl;
