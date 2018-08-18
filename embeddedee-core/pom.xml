@@ -48,6 +48,11 @@
             <version>${version.el}</version>
         </dependency>
         <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jandex</artifactId>
+            <version>${version.jandex}</version>
+        </dependency>
+        <dependency>
             <groupId>org.jboss.weld.servlet</groupId>
             <artifactId>weld-servlet-core</artifactId>
             <version>${version.weld}</version>

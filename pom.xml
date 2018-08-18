@@ -15,6 +15,7 @@
         <version.jackson>2.9.6</version.jackson>
         <version.weld>3.0.5.Final</version.weld>
         <version.el>3.0.0</version.el>
+        <version.jandex>2.0.5.Final</version.jandex>
     </properties>
     <modules>
         <module>embeddedee-core</module>
