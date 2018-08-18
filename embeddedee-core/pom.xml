@@ -27,16 +27,24 @@
             <artifactId>jetty-jndi</artifactId>
             <version>${version.jetty}</version>
         </dependency>
+        <!-- JSON serialization dependencies -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${version.jackson}</version>
         </dependency>
         <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${version.jackson}</version>
+        </dependency>
+        <!-- Datasource implementation -->
+        <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>${version.hikaricp}</version>
         </dependency>
+        <!-- CDI Dependencies -->
         <dependency>
             <groupId>javax.interceptor</groupId>
             <artifactId>javax.interceptor-api</artifactId>
@@ -74,6 +82,17 @@
                     <artifactId>jboss-logging</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <!-- JAX-RS Dependencies -->
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <version>${version.jersey}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>${version.jersey}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.slf4j</groupId>
