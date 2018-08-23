@@ -123,6 +123,22 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- JTA Dependencies -->
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>javax.transaction-api</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.atomikos</groupId>
+            <artifactId>transactions-jdbc</artifactId>
+            <version>${version.atomikos}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.atomikos</groupId>
+            <artifactId>transactions-jms</artifactId>
+            <version>${version.atomikos}</version>
+        </dependency>
     </dependencies>
 
 </project>

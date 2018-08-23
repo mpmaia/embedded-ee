@@ -5,6 +5,7 @@ import me.sigtrap.embeddedee.core.config.ConfigurationReader;
 import me.sigtrap.embeddedee.core.config.ConfigurationSource;
 import me.sigtrap.embeddedee.core.config.json.JsonConfigurationReader;
 import me.sigtrap.embeddedee.core.config.sources.ClassPathConfigurationSource;
+import me.sigtrap.embeddedee.core.datasources.AtomikosDataSourceFactory;
 import me.sigtrap.embeddedee.core.datasources.DataSourceConfig;
 import me.sigtrap.embeddedee.core.datasources.DataSourceType;
 import me.sigtrap.embeddedee.core.datasources.HikariDataSourceFactory;
@@ -48,9 +49,10 @@ public class EeApplication {
             for (DataSourceConfig dsConfig: dataSourcesConfig) {
                 if(dsConfig.getType().equals(DataSourceType.NON_XA)) {
                     DataSource ds = HikariDataSourceFactory.createDataSource(dsConfig);
-                    server.addDataSource(dsConfig.getDataSourceJNDI(), ds);
+                    server.addDataSource(dsConfig.getJndiName(), ds);
                 } else {
-                    //TODO: XA Wrapper
+                    DataSource ds = AtomikosDataSourceFactory.createDataSource(dsConfig);
+                    server.addDataSource(dsConfig.getJndiName(), ds);
                 }
             }
 

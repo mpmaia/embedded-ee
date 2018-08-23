@@ -1,9 +1,22 @@
 package me.sigtrap.embeddedee.core.datasources;
 
-import com.zaxxer.hikari.HikariConfig;
+public class DataSourceConfig {
 
-public class DataSourceConfig extends HikariConfig {
+    private String name;
+    private String jndiName;
 
+    private int minPoolSize = 1;
+    private int maxPoolSize = 1;
+    private int borrowConnectionTimeout = 30;
+    private int reapTimeout = 0;
+    private int maxIdleTime = 60;
+    private int loginTimeout;
+    private int maxLifetime;
+    private String user;
+    private String password;
+    private String url;
+    private String xaDataSourceClassName;
+    private String driverClassName;
     private DataSourceType type = DataSourceType.NON_XA;
 
     public DataSourceType getType() {
@@ -12,5 +25,117 @@ public class DataSourceConfig extends HikariConfig {
 
     public void setType(DataSourceType type) {
         this.type = type;
+    }
+
+    public int getMinPoolSize() {
+        return minPoolSize;
+    }
+
+    public void setMinPoolSize(int minPoolSize) {
+        this.minPoolSize = minPoolSize;
+    }
+
+    public int getMaxPoolSize() {
+        return maxPoolSize;
+    }
+
+    public void setMaxPoolSize(int maxPoolSize) {
+        this.maxPoolSize = maxPoolSize;
+    }
+
+    public int getBorrowConnectionTimeout() {
+        return borrowConnectionTimeout;
+    }
+
+    public void setBorrowConnectionTimeout(int borrowConnectionTimeout) {
+        this.borrowConnectionTimeout = borrowConnectionTimeout;
+    }
+
+    public int getReapTimeout() {
+        return reapTimeout;
+    }
+
+    public void setReapTimeout(int reapTimeout) {
+        this.reapTimeout = reapTimeout;
+    }
+
+    public int getMaxIdleTime() {
+        return maxIdleTime;
+    }
+
+    public void setMaxIdleTime(int maxIdleTime) {
+        this.maxIdleTime = maxIdleTime;
+    }
+
+    public int getLoginTimeout() {
+        return loginTimeout;
+    }
+
+    public void setLoginTimeout(int loginTimeout) {
+        this.loginTimeout = loginTimeout;
+    }
+
+    public int getMaxLifetime() {
+        return maxLifetime;
+    }
+
+    public void setMaxLifetime(int maxLifetime) {
+        this.maxLifetime = maxLifetime;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getXaDataSourceClassName() {
+        return xaDataSourceClassName;
+    }
+
+    public void setXaDataSourceClassName(String xaDataSourceClassName) {
+        this.xaDataSourceClassName = xaDataSourceClassName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getJndiName() {
+        return jndiName;
+    }
+
+    public void setJndiName(String jndiName) {
+        this.jndiName = jndiName;
+    }
+
+    public String getDriverClassName() {
+        return driverClassName;
+    }
+
+    public void setDriverClassName(String driverClassName) {
+        this.driverClassName = driverClassName;
     }
 }

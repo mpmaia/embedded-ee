@@ -18,6 +18,7 @@
         <version.jandex>2.0.5.Final</version.jandex>
         <version.jersey>2.27</version.jersey>
         <version.hibernate>5.3.5.Final</version.hibernate>
+        <version.atomikos>4.0.6</version.atomikos>
     </properties>
     <modules>
         <module>embeddedee-core</module>

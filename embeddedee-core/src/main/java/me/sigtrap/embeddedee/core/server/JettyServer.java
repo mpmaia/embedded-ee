@@ -82,6 +82,13 @@ public class JettyServer extends AbstractServer {
 
         server.setConnectors(new Connector[] {createHttpConnector(server)});
         server.setStopAtShutdown(true);
+
+        try {
+            org.eclipse.jetty.plus.jndi.Transaction transactionMgr = new org.eclipse.jetty.plus.jndi.Transaction(new com.atomikos.icatch.jta.J2eeUserTransaction());
+        } catch (NamingException e) {
+            logger.error("Failed to set transaction manager", e);
+        }
+
         return server;
     }
 
