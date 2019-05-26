@@ -17,6 +17,7 @@
         <version.el>3.0.0</version.el>
         <version.jandex>2.0.5.Final</version.jandex>
         <version.jersey>2.27</version.jersey>
+        <version.hibernate>5.3.5.Final</version.hibernate>
     </properties>
     <modules>
         <module>embeddedee-core</module>
