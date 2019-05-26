@@ -3,6 +3,7 @@ package me.sigtrap.embeddedee.core;
 import com.fasterxml.jackson.core.type.TypeReference;
 import me.sigtrap.embeddedee.core.config.ConfigurationReader;
 import me.sigtrap.embeddedee.core.config.ConfigurationSource;
+import me.sigtrap.embeddedee.core.config.exceptions.UnsupportedConfigurationException;
 import me.sigtrap.embeddedee.core.config.json.JsonConfigurationReader;
 import me.sigtrap.embeddedee.core.config.sources.ClassPathConfigurationSource;
 import me.sigtrap.embeddedee.core.datasources.DataSourceConfig;
@@ -48,9 +49,9 @@ public class EeApplication {
             for (DataSourceConfig dsConfig: dataSourcesConfig) {
                 if(dsConfig.getType().equals(DataSourceType.NON_XA)) {
                     DataSource ds = HikariDataSourceFactory.createDataSource(dsConfig);
-                    server.addDataSource(dsConfig.getDataSourceJNDI(), ds);
+                    server.addDataSource(dsConfig.getJndiName(), ds);
                 } else {
-                    //TODO: XA Wrapper
+                    throw new UnsupportedConfigurationException("Only NON_XA datasources are currently supported.");
                 }
             }
 
