@@ -5,6 +5,7 @@ import org.eclipse.jetty.plus.jndi.Resource;
 import org.eclipse.jetty.plus.webapp.EnvConfiguration;
 import org.eclipse.jetty.plus.webapp.PlusConfiguration;
 import org.eclipse.jetty.server.*;
+import org.eclipse.jetty.util.component.LifeCycle;
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.log.Slf4jLog;
 import org.eclipse.jetty.util.thread.MonitoredQueuedThreadPool;
@@ -12,7 +13,7 @@ import org.eclipse.jetty.webapp.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.naming.NamingException;
+import javax.servlet.ServletContextListener;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -34,7 +35,6 @@ public class JettyServer extends AbstractServer {
     public void start() {
         logger.info("Starting Jetty at URL {}.", this.getServerUrl());
         try {
-            build();
             server.start();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -49,7 +49,7 @@ public class JettyServer extends AbstractServer {
         }
     }
 
-    protected void build() {
+    public void build() {
         server = buildJettyServer();
         appContext = buildWebAppContext();
         server.setHandler(appContext);
@@ -63,6 +63,10 @@ public class JettyServer extends AbstractServer {
         } catch (Exception e) {
             throw new IllegalArgumentException("Failed to create datasource: " + jndiName + ".", e);
         }
+    }
+
+    public void addEventListener(ServletContextListener listener) {
+        appContext.addEventListener(listener);
     }
 
     private Server buildJettyServer() {

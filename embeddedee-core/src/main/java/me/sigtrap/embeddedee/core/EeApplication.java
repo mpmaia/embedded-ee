@@ -10,6 +10,8 @@ import me.sigtrap.embeddedee.core.datasources.DataSourceConfig;
 import me.sigtrap.embeddedee.core.datasources.DataSourceType;
 import me.sigtrap.embeddedee.core.datasources.HikariDataSourceFactory;
 import me.sigtrap.embeddedee.core.server.JettyServer;
+import org.jboss.weld.environment.servlet.BeanManagerResourceBindingListener;
+import org.jboss.weld.environment.servlet.Listener;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -39,6 +41,11 @@ public class EeApplication {
             } else {
                 server = new JettyServer();
             }
+
+            server.build();
+
+            server.addEventListener(new BeanManagerResourceBindingListener());
+            server.addEventListener(new Listener());
 
             server.start();
 
