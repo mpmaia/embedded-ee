@@ -1,0 +1,15 @@
+---
+server:
+  httpPort: 8080
+  serverUrl: http://localhost:8080/
+  maxThreads: 128
+  minThreads: 32
+  httpConfiguration:
+    sendServerVersion: false
+dataSources:
+  - jndiName: datasources/ExampleDS
+    jdbcUrl: jdbc:h2:~/exemplo.db;AUTO_SERVER=TRUE
+    username: sa
+    password: ''
+    maxPoolSize: 20
+    driverClassName: org.h2.Driver

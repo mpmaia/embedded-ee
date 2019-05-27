@@ -1,4 +1,4 @@
-package me.sigtrap.embeddedee.core.config.json;
+package me.sigtrap.embeddedee.core.config.yaml;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -10,12 +10,12 @@ import me.sigtrap.embeddedee.core.config.ConfigurationSource;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class JsonConfigurationReader implements ConfigurationReader {
+public class YamlConfigurationReader implements ConfigurationReader {
 
-    private ObjectMapper mapper = ObjectMapperFactory.get();
+    private ObjectMapper mapper = YamlObjectMapperFactory.get();
     private ConfigurationSource configurationSource;
 
-    public JsonConfigurationReader(ConfigurationSource configurationSource) {
+    public YamlConfigurationReader(ConfigurationSource configurationSource) {
         this.configurationSource = configurationSource;
     }
 

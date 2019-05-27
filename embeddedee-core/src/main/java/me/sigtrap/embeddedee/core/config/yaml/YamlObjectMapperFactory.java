@@ -1,12 +1,13 @@
-package me.sigtrap.embeddedee.core.config.json;
+package me.sigtrap.embeddedee.core.config.yaml;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
-public class ObjectMapperFactory {
+public class YamlObjectMapperFactory {
 
-    private static ObjectMapper mapper = new ObjectMapper();
+    private static ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 
     static {
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
@@ -21,6 +22,7 @@ public class ObjectMapperFactory {
     }
 
     public static ObjectMapper get() {
+        mapper.findAndRegisterModules();
         return mapper;
     }
 }

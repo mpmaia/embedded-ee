@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import me.sigtrap.embeddedee.core.config.ConfigurationReader;
 import me.sigtrap.embeddedee.core.config.ConfigurationSource;
 import me.sigtrap.embeddedee.core.config.exceptions.UnsupportedConfigurationException;
-import me.sigtrap.embeddedee.core.config.json.JsonConfigurationReader;
+import me.sigtrap.embeddedee.core.config.yaml.YamlConfigurationReader;
 import me.sigtrap.embeddedee.core.config.sources.ClassPathConfigurationSource;
 import me.sigtrap.embeddedee.core.datasources.DataSourceConfig;
 import me.sigtrap.embeddedee.core.datasources.DataSourceType;
@@ -27,8 +27,8 @@ public class EeApplication {
 
     public void start() {
 
-        ConfigurationSource configurationSource = new ClassPathConfigurationSource("application.json");
-        ConfigurationReader configurationReader = new JsonConfigurationReader(configurationSource);
+        ConfigurationSource configurationSource = new ClassPathConfigurationSource("application.yaml");
+        ConfigurationReader configurationReader = new YamlConfigurationReader(configurationSource);
 
         JettyServer server = null;
         List<DataSourceConfig> dataSourcesConfig = Collections.emptyList();
