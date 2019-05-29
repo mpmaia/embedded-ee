@@ -18,11 +18,12 @@ public class HikariDataSourceFactory {
         //dataSource.set(dataSourceConfig.getReapTimeout());
         dataSource.setDriverClassName(dataSourceConfig.getDriverClassName());
 
-        dataSource.setJdbcUrl(dataSourceConfig.getUrl());
-        dataSource.setUsername(dataSourceConfig.getUser());
+        dataSource.setJdbcUrl(dataSourceConfig.getJdbcUrl());
+        dataSource.setUsername(dataSourceConfig.getUsername());
         dataSource.setPassword(dataSourceConfig.getPassword());
 
         dataSource.setDataSourceJNDI(dataSourceConfig.getJndiName());
+
         dataSource.setPoolName(dataSourceConfig.getName());
 
         try {

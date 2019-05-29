@@ -12,9 +12,9 @@ public class DataSourceConfig {
     private int maxIdleTime = 60;
     private int loginTimeout;
     private int maxLifetime;
-    private String user;
+    private String username;
     private String password;
-    private String url;
+    private String jdbcUrl;
     private String xaDataSourceClassName;
     private String driverClassName;
     private DataSourceType type = DataSourceType.NON_XA;
@@ -83,12 +83,12 @@ public class DataSourceConfig {
         this.maxLifetime = maxLifetime;
     }
 
-    public String getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -99,12 +99,12 @@ public class DataSourceConfig {
         this.password = password;
     }
 
-    public String getUrl() {
-        return url;
+    public String getJdbcUrl() {
+        return jdbcUrl;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setJdbcUrl(String jdbcUrl) {
+        this.jdbcUrl = jdbcUrl;
     }
 
     public String getXaDataSourceClassName() {

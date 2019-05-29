@@ -47,8 +47,6 @@ public class EeApplication {
             server.addEventListener(new BeanManagerResourceBindingListener());
             server.addEventListener(new Listener());
 
-            server.start();
-
             if(configurationReader.hasProperty(DATASOURCES_PROPERTY)) {
                 dataSourcesConfig = configurationReader.read(DATASOURCES_PROPERTY, new TypeReference<List<DataSourceConfig>>() {});
             }
@@ -61,6 +59,8 @@ public class EeApplication {
                     throw new UnsupportedConfigurationException("Only NON_XA datasources are currently supported.");
                 }
             }
+
+            server.start();
 
         } catch (IOException e) {
             e.printStackTrace();

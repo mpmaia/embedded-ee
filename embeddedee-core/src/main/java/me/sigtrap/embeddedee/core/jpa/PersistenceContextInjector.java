@@ -12,7 +12,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
-import javax.sql.DataSource;
 
 @Priority(0)
 public class PersistenceContextInjector implements JpaInjectionServices {

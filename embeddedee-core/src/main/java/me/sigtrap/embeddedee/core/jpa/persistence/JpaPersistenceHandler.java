@@ -11,7 +11,7 @@ public class JpaPersistenceHandler extends DefaultHandler {
     public void startElement(String uri, String localName, String qName,
                              Attributes attributes) throws SAXException {
 
-        if(localName.equals("persistence-unit")) {
+        if(qName.equals("persistence-unit")) {
             unitName = attributes.getValue("name");
         }
     }

@@ -19,7 +19,7 @@ public class EntityManagerFactoryFactory {
 
         EntityManagerFactoryHolder wrapper = null;
 
-        if(unitName!=null && !unitName.isEmpty())
+        if(unitName==null || unitName.isEmpty())
             unitName = getDefaultUnitName();
 
         wrapper = cache.get(unitName);
@@ -36,7 +36,7 @@ public class EntityManagerFactoryFactory {
         return wrapper;
     }
 
-    private static String PERSISTENCE_XML = "./persistence.xml";
+    private static String PERSISTENCE_XML = "META-INF/persistence.xml";
 
     private static String getDefaultUnitName() {
 
