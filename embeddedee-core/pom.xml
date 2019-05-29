@@ -171,6 +171,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+            <version>${version.jersey}</version>
+            <scope>runtime</scope>
+        </dependency>
         <!-- JPA Dependencies -->
         <dependency>
             <groupId>org.hibernate</groupId>
