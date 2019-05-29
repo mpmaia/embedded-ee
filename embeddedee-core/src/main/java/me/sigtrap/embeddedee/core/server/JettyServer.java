@@ -17,15 +17,17 @@ import javax.servlet.ServletContextListener;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 public class JettyServer extends AbstractServer {
 
     private static final String CONTAINER_INCLUDED_JAR_PATTERN = "org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern";
-    private static final String JAR_PATTERN = ".*/classes/.*";
+    private static final String CLASSES_PATTERN = "^.*/classes/.*$";
     private Logger logger = LoggerFactory.getLogger(JettyServer.class.getName());
 
     private Server server;
@@ -92,9 +94,11 @@ public class JettyServer extends AbstractServer {
     private WebAppContext buildWebAppContext() {
         //http://www.eclipse.org/jetty/documentation/9.4.x/configuring-webapps.html
         WebAppContext appContext = new WebAppContext();
-        appContext.setAttribute(CONTAINER_INCLUDED_JAR_PATTERN, JAR_PATTERN);
+        appContext.setAttribute(CONTAINER_INCLUDED_JAR_PATTERN, CLASSES_PATTERN);
         appContext.setContextPath(getServerContextPath());
         appContext.setResourceBase(this.getWebAppResourceBase());
+        appContext.setParentLoaderPriority(true);
+
         return appContext;
     }
 
@@ -146,9 +150,12 @@ public class JettyServer extends AbstractServer {
 
     private String getWebAppResourceBase() {
         try {
-            final Path resourceBase = Files.createTempDirectory("webapp");
-            return resourceBase.toString();
-        } catch (IOException e) {
+            //TODO if running on uberjar
+            //final Path resourceBase = Files.createTempDirectory("webapp");
+            //return resourceBase.toString();
+            URL resourceRoot = JettyServer.class.getClassLoader().getResource(".");
+            return Paths.get(resourceRoot.toURI()).toString();
+        } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
     }

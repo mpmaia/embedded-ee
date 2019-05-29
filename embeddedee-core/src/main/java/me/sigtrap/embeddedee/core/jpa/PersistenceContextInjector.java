@@ -44,7 +44,7 @@ public class PersistenceContextInjector implements JpaInjectionServices {
         return new PersistenceUnitResourceFactory(wrapper.getEntityManagerFactory());
     }
 
-    @Override
+    /*@Override
     public EntityManager resolvePersistenceContext(InjectionPoint injectionPoint) {
         return null;
     }
@@ -52,7 +52,7 @@ public class PersistenceContextInjector implements JpaInjectionServices {
     @Override
     public EntityManagerFactory resolvePersistenceUnit(InjectionPoint injectionPoint) {
         return null;
-    }
+    }*/
 
     @Override
     public void cleanup() {

@@ -10,14 +10,16 @@
     <version>1.0-SNAPSHOT</version>
     <properties>
         <version.jetty>9.4.11.v20180605</version.jetty>
+        <version.jetty.cdi>2.14</version.jetty.cdi>
         <version.cfg4j>4.4.0</version.cfg4j>
         <version.hikaricp>3.1.0</version.hikaricp>
-        <version.weld>2.4.8.Final</version.weld>
+        <version.weld>3.1.0.Final</version.weld>
         <version.jackson>2.9.9</version.jackson>
         <version.el>3.0.0</version.el>
         <version.jandex>2.0.5.Final</version.jandex>
         <version.jersey>2.28</version.jersey>
         <version.hibernate>5.3.5.Final</version.hibernate>
+        <version.javaassist>3.24.1-GA</version.javaassist>
     </properties>
     <modules>
         <module>embeddedee-core</module>
