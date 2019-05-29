@@ -18,12 +18,12 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-public class EeApplication {
+public class EmbeddedEE {
 
     private static final String SERVER_PROPERTY = "/server";
     private static final String DATASOURCES_PROPERTY = "/dataSources";
 
-    public EeApplication() {
+    public EmbeddedEE() {
 
     }
 
