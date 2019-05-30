@@ -10,7 +10,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>embeddedee-core</artifactId>
-
+    <properties>
+        <version.jetty>9.4.11.v20180605</version.jetty>
+        <version.jetty.cdi>2.14</version.jetty.cdi>
+        <version.cfg4j>4.4.0</version.cfg4j>
+        <version.hikaricp>3.1.0</version.hikaricp>
+        <version.weld>3.1.0.Final</version.weld>
+        <version.jackson>2.9.8</version.jackson>
+        <version.el>3.0.0</version.el>
+        <version.jandex>2.0.5.Final</version.jandex>
+        <version.jersey>2.28</version.jersey>
+        <version.hibernate>5.3.5.Final</version.hibernate>
+        <version.javaassist>3.24.1-GA</version.javaassist>
+    </properties>
     <dependencies>
         <!-- Jetty Server -->
         <dependency>
@@ -176,6 +188,12 @@
             <artifactId>jersey-media-json-jackson</artifactId>
             <version>${version.jersey}</version>
             <scope>runtime</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jackson-annotations</artifactId>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- JPA Dependencies -->
         <dependency>
@@ -195,6 +213,14 @@
                     <groupId>org.jboss.spec.javax.transaction</groupId>
                     <artifactId>jboss-transaction-api_1.2_spec</artifactId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>javassist</artifactId>
+                    <groupId>org.javassist</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jboss-logging</artifactId>
+                    <groupId>org.jboss.logging</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
         <!-- JTA Dependencies -->
@@ -203,11 +229,16 @@
             <artifactId>javax.transaction-api</artifactId>
             <version>1.2</version>
         </dependency>
-        <!-- Libraries -->
+        <!-- Other Libraries -->
         <dependency>
-            <groupId>org.jboss.slf4j</groupId>
-            <artifactId>slf4j-jboss-logging</artifactId>
-            <version>1.1.0.Final</version>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+            <version>3.3.2.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.25</version>
         </dependency>
         <dependency>
             <groupId>org.javassist</groupId>
