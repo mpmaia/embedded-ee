@@ -9,7 +9,11 @@ server:
 dataSources:
   - jndiName: datasources/ExampleDS
     jdbcUrl: jdbc:h2:~/exemplo.db;AUTO_SERVER=TRUE
+    driverClassName: org.h2.Driver
     username: sa
     password: ''
     maxPoolSize: 20
-    driverClassName: org.h2.Driver
+    minPoolSize: 1
+    connectionTestQuery: SELECT 1
+    connectionTimeout: 30000
+    maxIdleTime: 120000

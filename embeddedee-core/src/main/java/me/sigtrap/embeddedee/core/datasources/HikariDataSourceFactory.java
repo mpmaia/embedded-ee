@@ -8,16 +8,21 @@ import java.sql.SQLException;
 public class HikariDataSourceFactory {
 
     public static DataSource createDataSource(DataSourceConfig dataSourceConfig) {
+
         HikariDataSource dataSource = new HikariDataSource();
 
-        //dataSource.set(dataSourceConfig.getBorrowConnectionTimeout());
         dataSource.setIdleTimeout(dataSourceConfig.getMaxIdleTime());
-        dataSource.setMaxLifetime(dataSourceConfig.getMaxLifetime());
+        dataSource.setMaxLifetime(dataSourceConfig.getMaxLifeTime());
+        dataSource.setConnectionTimeout(dataSourceConfig.getConnectionTimeout());
+        dataSource.setValidationTimeout(dataSourceConfig.getValidationTimeout());
+
         dataSource.setMaximumPoolSize(dataSourceConfig.getMaxPoolSize());
         dataSource.setMinimumIdle(dataSourceConfig.getMinPoolSize());
-        //dataSource.set(dataSourceConfig.getReapTimeout());
-        dataSource.setDriverClassName(dataSourceConfig.getDriverClassName());
 
+        dataSource.setConnectionInitSql(dataSourceConfig.getConnectionInitSql());
+        dataSource.setConnectionTestQuery(dataSourceConfig.getConnectionTestQuery());
+
+        dataSource.setDriverClassName(dataSourceConfig.getDriverClassName());
         dataSource.setJdbcUrl(dataSourceConfig.getJdbcUrl());
         dataSource.setUsername(dataSourceConfig.getUsername());
         dataSource.setPassword(dataSourceConfig.getPassword());
@@ -27,7 +32,7 @@ public class HikariDataSourceFactory {
         dataSource.setPoolName(dataSourceConfig.getName());
 
         try {
-            dataSource.setLoginTimeout(dataSourceConfig.getLoginTimeout());
+            dataSource.setLoginTimeout((int)dataSourceConfig.getLoginTimeout());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

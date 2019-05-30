@@ -1,21 +1,29 @@
 package me.sigtrap.embeddedee.core.datasources;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 public class DataSourceConfig {
 
     private String name;
     private String jndiName;
 
     private int minPoolSize = 1;
-    private int maxPoolSize = 1;
-    private int borrowConnectionTimeout = 30;
-    private int reapTimeout = 0;
-    private int maxIdleTime = 60;
-    private int loginTimeout;
-    private int maxLifetime;
+    private int maxPoolSize = 10;
+
+    private long validationTimeout = SECONDS.toMillis(30);
+    private long connectionTimeout = SECONDS.toMillis(30);
+    private long loginTimeout = SECONDS.toMillis(30);
+
+    private long maxIdleTime = SECONDS.toMillis(120);
+    private long maxLifeTime = SECONDS.toMillis(240);
+
+    private String connectionTestQuery;
+    private String connectionInitSql;
+
     private String username;
     private String password;
+
     private String jdbcUrl;
-    private String xaDataSourceClassName;
     private String driverClassName;
     private DataSourceType type = DataSourceType.NON_XA;
 
@@ -43,44 +51,28 @@ public class DataSourceConfig {
         this.maxPoolSize = maxPoolSize;
     }
 
-    public int getBorrowConnectionTimeout() {
-        return borrowConnectionTimeout;
+    public long getConnectionTimeout() {
+        return connectionTimeout;
     }
 
-    public void setBorrowConnectionTimeout(int borrowConnectionTimeout) {
-        this.borrowConnectionTimeout = borrowConnectionTimeout;
+    public void setConnectionTimeout(long connectionTimeout) {
+        this.connectionTimeout = connectionTimeout;
     }
 
-    public int getReapTimeout() {
-        return reapTimeout;
-    }
-
-    public void setReapTimeout(int reapTimeout) {
-        this.reapTimeout = reapTimeout;
-    }
-
-    public int getMaxIdleTime() {
+    public long getMaxIdleTime() {
         return maxIdleTime;
     }
 
-    public void setMaxIdleTime(int maxIdleTime) {
+    public void setMaxIdleTime(long maxIdleTime) {
         this.maxIdleTime = maxIdleTime;
     }
 
-    public int getLoginTimeout() {
-        return loginTimeout;
+    public long getMaxLifeTime() {
+        return maxLifeTime;
     }
 
-    public void setLoginTimeout(int loginTimeout) {
-        this.loginTimeout = loginTimeout;
-    }
-
-    public int getMaxLifetime() {
-        return maxLifetime;
-    }
-
-    public void setMaxLifetime(int maxLifetime) {
-        this.maxLifetime = maxLifetime;
+    public void setMaxLifeTime(long maxLifeTime) {
+        this.maxLifeTime = maxLifeTime;
     }
 
     public String getUsername() {
@@ -107,14 +99,6 @@ public class DataSourceConfig {
         this.jdbcUrl = jdbcUrl;
     }
 
-    public String getXaDataSourceClassName() {
-        return xaDataSourceClassName;
-    }
-
-    public void setXaDataSourceClassName(String xaDataSourceClassName) {
-        this.xaDataSourceClassName = xaDataSourceClassName;
-    }
-
     public String getName() {
         return name;
     }
@@ -137,5 +121,37 @@ public class DataSourceConfig {
 
     public void setDriverClassName(String driverClassName) {
         this.driverClassName = driverClassName;
+    }
+
+    public long getValidationTimeout() {
+        return validationTimeout;
+    }
+
+    public void setValidationTimeout(long validationTimeout) {
+        this.validationTimeout = validationTimeout;
+    }
+
+    public String getConnectionTestQuery() {
+        return connectionTestQuery;
+    }
+
+    public void setConnectionTestQuery(String connectionTestQuery) {
+        this.connectionTestQuery = connectionTestQuery;
+    }
+
+    public String getConnectionInitSql() {
+        return connectionInitSql;
+    }
+
+    public void setConnectionInitSql(String connectionInitSql) {
+        this.connectionInitSql = connectionInitSql;
+    }
+
+    public long getLoginTimeout() {
+        return loginTimeout;
+    }
+
+    public void setLoginTimeout(long loginTimeout) {
+        this.loginTimeout = loginTimeout;
     }
 }
