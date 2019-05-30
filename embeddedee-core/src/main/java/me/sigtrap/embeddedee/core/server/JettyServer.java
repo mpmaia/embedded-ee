@@ -5,7 +5,6 @@ import org.eclipse.jetty.plus.jndi.Resource;
 import org.eclipse.jetty.plus.webapp.EnvConfiguration;
 import org.eclipse.jetty.plus.webapp.PlusConfiguration;
 import org.eclipse.jetty.server.*;
-import org.eclipse.jetty.util.component.LifeCycle;
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.log.Slf4jLog;
 import org.eclipse.jetty.util.thread.MonitoredQueuedThreadPool;
@@ -15,12 +14,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContextListener;
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
