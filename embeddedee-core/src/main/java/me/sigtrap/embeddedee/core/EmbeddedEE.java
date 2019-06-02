@@ -9,6 +9,7 @@ import me.sigtrap.embeddedee.core.config.sources.ClassPathConfigurationSource;
 import me.sigtrap.embeddedee.core.datasources.DataSourceConfig;
 import me.sigtrap.embeddedee.core.datasources.DataSourceType;
 import me.sigtrap.embeddedee.core.datasources.HikariDataSourceFactory;
+import me.sigtrap.embeddedee.core.jpa.servlet.ResourceLocalOpenSessionInView;
 import me.sigtrap.embeddedee.core.server.JettyServer;
 import org.jboss.weld.environment.servlet.BeanManagerResourceBindingListener;
 import org.jboss.weld.environment.servlet.Listener;
@@ -46,6 +47,7 @@ public class EmbeddedEE {
 
             server.addEventListener(new BeanManagerResourceBindingListener());
             server.addEventListener(new Listener());
+            server.addRequestListener(new ResourceLocalOpenSessionInView());
 
             if(configurationReader.hasProperty(DATASOURCES_PROPERTY)) {
                 dataSourcesConfig = configurationReader.read(DATASOURCES_PROPERTY, new TypeReference<List<DataSourceConfig>>() {});

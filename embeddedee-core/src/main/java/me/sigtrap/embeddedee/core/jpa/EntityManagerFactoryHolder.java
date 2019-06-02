@@ -17,5 +17,4 @@ public class EntityManagerFactoryHolder {
     public EntityManagerFactory getEntityManagerFactory() {
         return entityManagerFactory;
     }
-
 }

@@ -8,5 +8,4 @@ public class App {
         EmbeddedEE app = new EmbeddedEE();
         app.start();
     }
-
 }

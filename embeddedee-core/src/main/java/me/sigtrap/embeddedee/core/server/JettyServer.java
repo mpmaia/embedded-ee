@@ -5,6 +5,8 @@ import org.eclipse.jetty.plus.jndi.Resource;
 import org.eclipse.jetty.plus.webapp.EnvConfiguration;
 import org.eclipse.jetty.plus.webapp.PlusConfiguration;
 import org.eclipse.jetty.server.*;
+import org.eclipse.jetty.servlet.ListenerHolder;
+import org.eclipse.jetty.servlet.Source;
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.log.Slf4jLog;
 import org.eclipse.jetty.util.thread.MonitoredQueuedThreadPool;
@@ -13,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContextListener;
+import javax.servlet.ServletRequestListener;
 import javax.sql.DataSource;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -64,6 +67,10 @@ public class JettyServer extends AbstractServer {
     }
 
     public void addEventListener(ServletContextListener listener) {
+        appContext.addEventListener(listener);
+    }
+
+    public void addRequestListener(ServletRequestListener listener) {
         appContext.addEventListener(listener);
     }
 

@@ -8,6 +8,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import java.util.List;
 
 public class UserDAO {
@@ -22,5 +23,20 @@ public class UserDAO {
         criteriaQuery.select(root);
         TypedQuery<User> query = em.createQuery(criteriaQuery);
         return query.getResultList();
+    }
+
+    public User getById(long id) {
+        return em.find(User.class, id);
+    }
+
+    @Transactional
+    public User persist(User u) {
+        em.persist(u);
+        return u;
+    }
+
+    @Transactional
+    public  void delete(User u) {
+        em.remove(u);
     }
 }

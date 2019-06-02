@@ -31,7 +31,7 @@ public class PersistenceContextResourceFactory implements ResourceReferenceFacto
         if (dataSourceType == DataSourceType.XA) {
             throw new UnsupportedConfigurationException("XA DataSources are not supported yet.");
         } else {
-            em = new ResourceLocalEntityManagerResource(emf.createEntityManager());
+            em = new ResourceLocalEntityManagerResource(emf);
         }
 
         return new PersistenceContextResource(em);
