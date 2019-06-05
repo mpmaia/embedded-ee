@@ -32,6 +32,7 @@ public class JettyServer extends AbstractServer {
     private Server server;
     private WebAppContext appContext;
     private HttpConfiguration httpConfiguration;
+    private boolean built = false;
 
     public void start() {
         logger.info("Starting Jetty at URL {}.", this.getServerUrl());
@@ -54,6 +55,7 @@ public class JettyServer extends AbstractServer {
         server = buildJettyServer();
         appContext = buildWebAppContext();
         server.setHandler(appContext);
+        built = true;
     }
 
     @Override
@@ -141,6 +143,14 @@ public class JettyServer extends AbstractServer {
         }
 
         return httpConnector;
+    }
+
+    public void setPort(int httpPort) {
+        if(!built) {
+            this.setHttpPort(httpPort);
+        } else {
+            throw new IllegalStateException("Cannot set port after Jetty Server has been built.");
+        }
     }
 
     public HttpConfiguration getHttpConfiguration() {

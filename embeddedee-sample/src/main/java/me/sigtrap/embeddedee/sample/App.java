@@ -6,6 +6,7 @@ public class App {
 
     public static void main(String[] args) {
         EmbeddedEE app = new EmbeddedEE();
-        app.start();
+        //forward command line args to EmbeddedEE
+        app.start(args);
     }
 }
