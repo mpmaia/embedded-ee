@@ -20,6 +20,8 @@ import javax.sql.DataSource;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
@@ -163,11 +165,37 @@ public class JettyServer extends AbstractServer {
 
     private String getWebAppResourceBase() {
         try {
-            //TODO if running on uberjar
-            //final Path resourceBase = Files.createTempDirectory("webapp");
-            //return resourceBase.toString();
-            URL resourceRoot = JettyServer.class.getClassLoader().getResource(".");
-            return Paths.get(resourceRoot.toURI()).toString();
+
+            //check if jar has a webapp dir
+            URL webApp = JettyServer.class.getClassLoader().getResource("webapp");
+            if(webApp!=null && Files.isDirectory(Paths.get(webApp.toURI()))) {
+                return webApp.toExternalForm();
+            }
+
+            //check if there is a webapp dir on the current dir
+            Path webAppPath = Paths.get("./webapp");
+            if(Files.isDirectory(webAppPath)) {
+                return webAppPath.toString();
+            }
+
+            //check if running on maven
+            URL rootResource = JettyServer.class.getClassLoader().getResource(".");
+            //if rootResource is null we are running inside a jar
+            if(rootResource!=null) {
+                Path classes = Paths.get(rootResource.toURI());
+                if(Files.isDirectory(classes)) {
+                    Path target = classes.getParent();
+                    if(target.getFileName().toString().endsWith("target")) {
+                        webAppPath = target.resolveSibling(Paths.get("src", "main", "webapp"));
+                        if(Files.isDirectory(webAppPath)) {
+                            return webAppPath.toString();
+                        }
+                    }
+                }
+            }
+
+            throw new IllegalStateException("Unable to find webapp diretory.");
+
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
