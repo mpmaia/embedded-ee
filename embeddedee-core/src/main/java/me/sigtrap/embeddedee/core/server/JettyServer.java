@@ -1,5 +1,6 @@
 package me.sigtrap.embeddedee.core.server;
 
+import me.sigtrap.embeddedee.core.util.ClassPathUtil;
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.plus.jndi.Resource;
 import org.eclipse.jetty.plus.webapp.EnvConfiguration;
@@ -29,6 +30,7 @@ public class JettyServer extends AbstractServer {
 
     private static final String CONTAINER_INCLUDED_JAR_PATTERN = "org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern";
     private static final String CLASSES_PATTERN = "^.*/classes/.*$";
+    private static final String JAR_PATTERN = "^([\\\\/]lib[\\\\/].*\\.jar|.*\\.jar[^\\/]*)*$";
     private Logger logger = LoggerFactory.getLogger(JettyServer.class.getName());
 
     private Server server;
@@ -101,7 +103,10 @@ public class JettyServer extends AbstractServer {
     private WebAppContext buildWebAppContext() {
         //http://www.eclipse.org/jetty/documentation/9.4.x/configuring-webapps.html
         WebAppContext appContext = new WebAppContext();
-        appContext.setAttribute(CONTAINER_INCLUDED_JAR_PATTERN, CLASSES_PATTERN);
+
+        String pattern = ClassPathUtil.isRunningExploded()?CLASSES_PATTERN:JAR_PATTERN;
+
+        appContext.setAttribute(CONTAINER_INCLUDED_JAR_PATTERN, pattern);
         appContext.setContextPath(getServerContextPath());
         appContext.setResourceBase(this.getWebAppResourceBase());
         appContext.setParentLoaderPriority(true);

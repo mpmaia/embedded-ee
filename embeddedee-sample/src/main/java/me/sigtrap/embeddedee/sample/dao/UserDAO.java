@@ -2,6 +2,7 @@ package me.sigtrap.embeddedee.sample.dao;
 
 import me.sigtrap.embeddedee.sample.model.User;
 
+import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -11,6 +12,7 @@ import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.List;
 
+@RequestScoped
 public class UserDAO {
 
     @PersistenceContext
