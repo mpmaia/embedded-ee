@@ -6,17 +6,36 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import me.sigtrap.embeddedee.core.config.ConfigurationReader;
 import me.sigtrap.embeddedee.core.config.ConfigurationSource;
+import me.sigtrap.embeddedee.core.config.util.JsonNodeUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 
 public class YamlConfigurationReader implements ConfigurationReader {
 
     private ObjectMapper mapper = YamlObjectMapperFactory.get();
-    private ConfigurationSource configurationSource;
+    private List<ConfigurationSource> configurationSources;
+    private JsonNode jsonNode;
 
-    public YamlConfigurationReader(ConfigurationSource configurationSource) {
-        this.configurationSource = configurationSource;
+    public YamlConfigurationReader(ConfigurationSource ...configurationSource) throws IOException {
+        this.configurationSources = Arrays.asList(configurationSource);
+        this.jsonNode = readNodes();
+    }
+
+    private JsonNode readNodes() throws IOException {
+        JsonNode node = null;
+        for(ConfigurationSource cs: this.configurationSources) {
+            InputStream inputStream = cs.read();
+            JsonNode jsonNode = mapper.readTree(inputStream);
+            if(node!=null) {
+                node = JsonNodeUtil.merge(node, jsonNode);
+            } else {
+                node = jsonNode;
+            }
+        }
+        return node;
     }
 
     public <T> T read(String propertyRoot, TypeReference<T> type) throws IOException {
@@ -49,10 +68,18 @@ public class YamlConfigurationReader implements ConfigurationReader {
         }
     }
 
+    @Override
+    public <T> T readInto(String propertyRoot, T obj) throws IOException {
+        try {
+            JsonNode jsonNode = getJsonNode(propertyRoot);
+            return mapper.readerForUpdating(obj).readValue(jsonNode);
+        } catch (IOException e) {
+            throw e;
+        }
+    }
+
     private JsonNode getJsonNode(String propertyRoot) throws IOException {
-        InputStream inputStream = configurationSource.read();
-        JsonNode jsonNode = mapper.readTree(inputStream);
-        jsonNode = jsonNode.at(propertyRoot);
-        return jsonNode;
+        JsonNode subNode = this.jsonNode.at(propertyRoot);
+        return subNode;
     }
 }

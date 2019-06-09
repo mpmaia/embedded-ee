@@ -7,7 +7,8 @@ server:
   httpConfiguration:
     sendServerVersion: false
 dataSources:
-  - jndiName: datasources/ExampleDS
+  ExampleDS:
+    jndiName: datasources/ExampleDS
     jdbcUrl: jdbc:h2:~/exemplo.db;AUTO_SERVER=TRUE
     driverClassName: org.h2.Driver
     username: sa

@@ -22,8 +22,10 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class EmbeddedEE {
 
@@ -52,29 +54,10 @@ public class EmbeddedEE {
         logger.info("Starting EmbeddedEE...");
 
         JettyServer server;
-        List<DataSourceConfig> dataSourcesConfig = Collections.emptyList();
+        Map<String, DataSourceConfig> dataSourcesConfig = Collections.emptyMap();
         CommandLine cmdLine = parseCommandLine(cmdLineArgs);
 
         try {
-
-            ConfigurationSource configurationSource;
-
-            //loads application config file
-            if(cmdLine.hasOption(OPTION_CONFIG)) {
-                String configFilePath = cmdLine.getOptionValue(OPTION_CONFIG);
-                if(Files.exists(Paths.get(configFilePath))) {
-                    configurationSource = new FileSystemConfigurationSource(configFilePath);
-                } else {
-                    System.err.println("Config file not found.");
-                    return;
-                }
-            } else {
-                if(Files.exists(Paths.get("./" + DEFAULT_CONFIG_FILE))) {
-                    configurationSource = new FileSystemConfigurationSource("./" + DEFAULT_CONFIG_FILE);
-                } else {
-                    configurationSource = new ClassPathConfigurationSource(DEFAULT_CONFIG_FILE);
-                }
-            }
 
             //loads log4j configuration file
             if(cmdLine.hasOption(OPTION_LOG)) {
@@ -89,7 +72,28 @@ public class EmbeddedEE {
                 }
             }
 
-            ConfigurationReader configurationReader = new YamlConfigurationReader(configurationSource);
+            List<ConfigurationSource> configurationSources = new ArrayList<>();
+
+            //loads application config file
+            if(cmdLine.hasOption(OPTION_CONFIG)) {
+                String[] configFilePaths = cmdLine.getOptionValues(OPTION_CONFIG);
+                for(String configFilePath: configFilePaths) {
+                    if(Files.exists(Paths.get(configFilePath))) {
+                        configurationSources.add(new FileSystemConfigurationSource(configFilePath));
+                    } else {
+                        System.err.println(String.format("Config file %s not found.", configFilePath));
+                        return;
+                    }
+                }
+            } else {
+                if(Files.exists(Paths.get("./" + DEFAULT_CONFIG_FILE))) {
+                    configurationSources.add(new FileSystemConfigurationSource("./" + DEFAULT_CONFIG_FILE));
+                } else {
+                    configurationSources.add(new ClassPathConfigurationSource(DEFAULT_CONFIG_FILE));
+                }
+            }
+
+            ConfigurationReader configurationReader = new YamlConfigurationReader(configurationSources.toArray(new ConfigurationSource[]{}));
 
             if(configurationReader.hasProperty(SERVER_PROPERTY)) {
                 server = configurationReader.read(SERVER_PROPERTY, JettyServer.class);
@@ -115,10 +119,10 @@ public class EmbeddedEE {
             server.addRequestListener(new ResourceLocalOpenSessionInView());
 
             if(configurationReader.hasProperty(DATASOURCES_PROPERTY)) {
-                dataSourcesConfig = configurationReader.read(DATASOURCES_PROPERTY, new TypeReference<List<DataSourceConfig>>() {});
+                dataSourcesConfig = configurationReader.read(DATASOURCES_PROPERTY, new TypeReference<Map<String, DataSourceConfig>>() {});
             }
 
-            for (DataSourceConfig dsConfig: dataSourcesConfig) {
+            for (DataSourceConfig dsConfig: dataSourcesConfig.values()) {
                 if(dsConfig.getType().equals(DataSourceType.NON_XA)) {
                     DataSource ds = HikariDataSourceFactory.createDataSource(dsConfig);
                     server.addDataSource(dsConfig.getJndiName(), ds);
@@ -151,7 +155,9 @@ public class EmbeddedEE {
         options.addOption(new Option( "h", "help", false, "prints this help message" ));
         options.addOption(new Option(OPTION_LOG, "log", true, "Log4j config file"));
         options.addOption(new Option(OPTION_PORT, "port", true, "Listening port"));
-        options.addOption(new Option(OPTION_CONFIG, "config", true, "Config file"));
+        Option config = new Option(OPTION_CONFIG, "config", true, "Config file");
+        config.setArgs(Option.UNLIMITED_VALUES);
+        options.addOption(config);
 
         return options;
     }
