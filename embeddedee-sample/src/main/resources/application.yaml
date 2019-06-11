@@ -1,20 +1,37 @@
 ---
 server:
+  # HTTP port the server should listen
   httpPort: 8080
+  # Application URL
   serverUrl: http://localhost:8080/
+  # Upper limit on the number of threads the server will start
   maxThreads: 512
+  # Minimum number of idle threads the server will keep on the pool
   minThreads: 128
   httpConfiguration:
+    # Sets if the server should send the server version header on each response
     sendServerVersion: false
 dataSources:
+  # Datasource name
   ExampleDS:
+    # JNDI name where the datasource will be published
     jndiName: datasources/ExampleDS
+    # JDBC connection URL
     jdbcUrl: jdbc:h2:~/exemplo.db;AUTO_SERVER=TRUE
+    # JDBC driver
     driverClassName: org.h2.Driver
+    # Username and password that will be provided to the database driver
     username: sa
     password: ''
+    # Maximum number of connections that the pool will support
     maxPoolSize: 20
+    # Minimum idle connections
     minPoolSize: 1
+    # Query executed by the pool to test the connection
     connectionTestQuery: SELECT 1
+    # SQL statement executed for each new connection
+    connectionInitSql: SELECT 1
+    # Maximum number of milliseconds that a client will wait for a connection
     connectionTimeout: 30000
+    # Maximum number of milliseconds that a connection will stay idle on the pool
     maxIdleTime: 120000
