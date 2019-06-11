@@ -2,13 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <parent>
-        <artifactId>embeddedee</artifactId>
-        <groupId>me.sigtrap</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <groupId>me.sigtrap.embeddedee</groupId>
+        <artifactId>embeddedee-samples</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>embeddedee-sample</artifactId>
+    <artifactId>simple-webapp</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
 
     <properties>
         <version.h2>1.4.197</version.h2>
@@ -19,7 +22,7 @@
             <groupId>me.sigtrap</groupId>
             <artifactId>embeddedee-core</artifactId>
             <scope>compile</scope>
-            <version>${project.version}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
