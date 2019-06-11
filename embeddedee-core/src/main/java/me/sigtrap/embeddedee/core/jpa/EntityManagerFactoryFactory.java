@@ -23,6 +23,11 @@ public class EntityManagerFactoryFactory {
         if(unitName==null || unitName.isEmpty())
             unitName = getDefaultUnitName();
 
+        if(unitName==null) {
+            //no persistence.xml found.
+            return null;
+        }
+
         wrapper = cache.get(unitName);
         if (wrapper == null) {
 

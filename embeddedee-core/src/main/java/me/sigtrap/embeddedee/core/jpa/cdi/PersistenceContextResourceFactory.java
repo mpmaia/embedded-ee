@@ -26,12 +26,16 @@ public class PersistenceContextResourceFactory implements ResourceReferenceFacto
     @Override
     public ResourceReference<EntityManager> createResource() {
 
-        EntityManagerResource em = null;
+        EntityManagerResource em;
 
         if (dataSourceType == DataSourceType.XA) {
             throw new UnsupportedConfigurationException("XA DataSources are not supported yet.");
         } else {
-            em = new ResourceLocalEntityManagerResource(emf);
+            if(emf!=null) {
+                em = new ResourceLocalEntityManagerResource(emf);
+            } else {
+                em = new NullEntityManagerResource();
+            }
         }
 
         return new PersistenceContextResource(em);

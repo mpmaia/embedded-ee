@@ -26,7 +26,10 @@ public class PersistenceContextInjector implements JpaInjectionServices {
         String unitName = pc.unitName();
         EntityManagerFactoryHolder wrapper = EntityManagerFactoryFactory.getEntityManagerFactory(unitName);
 
-        //TODO: Determinar tipo do DataSource e passar parametro
+        if(wrapper==null) {
+            return new PersistenceContextResourceFactory(unitName, null, DataSourceType.NON_XA, pc.synchronization());
+        }
+
         return new PersistenceContextResourceFactory(unitName, wrapper.getEntityManagerFactory(),
                 DataSourceType.NON_XA, pc.synchronization());
     }
