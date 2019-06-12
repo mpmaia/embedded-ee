@@ -1,5 +1,6 @@
 package me.sigtrap.embeddedee.core.server;
 
+import me.sigtrap.embeddedee.core.config.exceptions.InvalidConfigurationException;
 import me.sigtrap.embeddedee.core.util.ClassPathUtil;
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.plus.jndi.Resource;
@@ -170,6 +171,14 @@ public class JettyServer extends AbstractServer {
 
     private String getWebAppResourceBase() {
         try {
+
+            if(this.getWebRoot()!=null) {
+                if(Files.isDirectory(Paths.get(this.getWebRoot()))) {
+                    return this.getWebRoot();
+                } else {
+                    throw new InvalidConfigurationException(String.format("Web root path %s not found.", this.getWebRoot()));
+                }
+            }
 
             //check if jar has a webapp dir
             URL webApp = JettyServer.class.getClassLoader().getResource("webapp");

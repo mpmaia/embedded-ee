@@ -8,6 +8,9 @@ server:
   maxThreads: 512
   # Minimum number of idle threads the server will keep on the pool
   minThreads: 128
+  # Directory from where static files will be served. If this value is not provided, we'll look for a webapp folder
+  # inside the jar or on the current directory
+  # webRoot: /var/www
   httpConfiguration:
     # Sets if the server should send the server version header on each response
     sendServerVersion: false

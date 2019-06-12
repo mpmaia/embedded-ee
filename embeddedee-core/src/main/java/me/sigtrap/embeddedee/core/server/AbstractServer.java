@@ -9,6 +9,7 @@ public abstract class AbstractServer {
     private Integer maxThreads = 128;
     private String serverContextPath = "/";
     private int httpPort = 8080;
+    private String webRoot;
 
     public abstract void start();
 
@@ -56,5 +57,13 @@ public abstract class AbstractServer {
 
     public void setHttpPort(int httpPort) {
         this.httpPort = httpPort;
+    }
+
+    public String getWebRoot() {
+        return webRoot;
+    }
+
+    public void setWebRoot(String webRoot) {
+        this.webRoot = webRoot;
     }
 }
