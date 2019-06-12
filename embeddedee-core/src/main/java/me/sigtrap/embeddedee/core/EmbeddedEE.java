@@ -31,6 +31,7 @@ public class EmbeddedEE {
 
     private static final String SERVER_PROPERTY = "/server";
     private static final String DATASOURCES_PROPERTY = "/dataSources";
+    private static final String PROPERTIES_PROPERTY = "/properties";
     private static final String DEFAULT_CONFIG_FILE = "application.yaml";
     private static final String LOG4J_CONFIG_FILE = "./log4j.properties";
     private static final Logger logger = LoggerFactory.getLogger(EmbeddedEE.class);
@@ -128,6 +129,13 @@ public class EmbeddedEE {
                     server.addDataSource(dsConfig.getJndiName(), ds);
                 } else {
                     throw new UnsupportedConfigurationException("Only NON_XA datasources are currently supported.");
+                }
+            }
+
+            if(configurationReader.hasProperty(PROPERTIES_PROPERTY)) {
+                Map<String, String> properties = configurationReader.read(PROPERTIES_PROPERTY, new TypeReference<Map<String, String>>() {});
+                for(String property: properties.keySet()) {
+                    System.setProperty(property, properties.get(property));
                 }
             }
 

@@ -35,3 +35,6 @@ dataSources:
     connectionTimeout: 30000
     # Maximum number of milliseconds that a connection will stay idle on the pool
     maxIdleTime: 120000
+properties:
+  # One or more key/value configuration properties that will be available via 'System.getProperty'
+  property: value
